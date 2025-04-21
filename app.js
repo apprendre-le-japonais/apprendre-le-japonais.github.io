@@ -51,10 +51,20 @@ const quiz = {
             document.getElementById('quizQuestion').textContent = questionText;
             this.expectedAnswer = this.currentQuestion.french;
         } else {
-            let questionText = `Comment dit-on "${this.currentQuestion.french.join(" ou ")}" en japonais ?`;
+            let frenchQuestionText;
+
+            if (Array.isArray(this.currentQuestion.french)) {
+                frenchQuestionText = this.currentQuestion.french.join(" ou ");
+            } else {
+                frenchQuestionText = this.currentQuestion.french;
+            }
+
+            let questionText = `Comment dit-on "${frenchQuestionText}" en japonais ?`;
+            
             if (this.currentQuestion.politeness) {
                 questionText += ` (${this.currentQuestion.politeness})`;
             }
+
             document.getElementById('quizQuestion').textContent = questionText;
             this.expectedAnswer = this.currentQuestion.japanese;
         }
@@ -69,21 +79,26 @@ const quiz = {
         
         // Déterminer si on attend une réponse en japonais ou en français
         const isJapaneseQuestion = this.expectedAnswer === this.currentQuestion.japanese;
-        const correctAnswers = isJapaneseQuestion ? 
-            [this.currentQuestion.japanese.toLowerCase()] :
-            (Array.isArray(this.currentQuestion.french) ? 
-                this.currentQuestion.french.map(a => a.toLowerCase()) : 
-                [this.currentQuestion.french.toLowerCase()]);
+        let correctAnswers;
+        let correctAnswerText;
+        
+        if (isJapaneseQuestion) {
+            correctAnswers = [this.currentQuestion.japanese.toLowerCase()];
+            correctAnswerText = this.currentQuestion.japanese;
+        } else {
+            if (Array.isArray(this.currentQuestion.french)) {
+                correctAnswers = this.currentQuestion.french.map(a => a.toLowerCase());
+                correctAnswerText = this.currentQuestion.french.join(" ou ");
+            } else {
+                correctAnswers = [this.currentQuestion.french.toLowerCase()];
+                correctAnswerText = this.currentQuestion.french;
+            }
+        }
         
         if (correctAnswers.includes(userAnswer)) {
             this.feedbackElement.textContent = "Correct !";
             this.feedbackElement.className = "feedback correct";
         } else {
-            const correctAnswerText = isJapaneseQuestion ? 
-                this.currentQuestion.japanese :
-                (Array.isArray(this.currentQuestion.french) ? 
-                    this.currentQuestion.french.join(" ou ") : 
-                    this.currentQuestion.french);
             this.feedbackElement.textContent = `Incorrect. La bonne réponse était : ${correctAnswerText}`;
             this.feedbackElement.className = "feedback incorrect";
         }
