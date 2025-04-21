@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre le japonais</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Apprendre le japonais</h1>
+        </header>
+        
+        <main>
+            <section class="quiz-section">
+                <h2>Quiz</h2>
+                <div id="quizContainer">
+                    <select id="vocabularyCategory">
+                        <option value="all">Tous les mots</option>
+                        <option value="greetings">Salutations</option>
+                        <option value="numbers">Nombres</option>
+                        <option value="colors">Couleurs</option>
+                        <option value="food">Nourriture</option>
+                        <option value="family">Famille</option>
+                        <option value="verbs">Verbes</option>
+                        <option value="adjectives">Adjectifs</option>
+                        <option value="usefulExpressions">Expressions utiles</option>
+                    </select>
+                    <p id="quizQuestion"></p>
+                    <input type="text" id="quizAnswer" placeholder="Votre réponse">
+                    <button id="checkAnswer">Vérifier</button>
+                    <p id="quizResult"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Chargement des fichiers de vocabulaire -->
+    <script src="vocabulary/greetings.js"></script>
+    <script src="vocabulary/numbers.js"></script>
+    <script src="vocabulary/colors.js"></script>
+    <script src="vocabulary/food.js"></script>
+    <script src="vocabulary/family.js"></script>
+    <script src="vocabulary/verbs.js"></script>
+    <script src="vocabulary/adjectives.js"></script>
+    <script src="vocabulary/useful-expressions.js"></script>
+    <script src="vocabulary/all.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
