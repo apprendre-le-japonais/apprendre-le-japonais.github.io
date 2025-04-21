@@ -19,7 +19,8 @@ window.usefulExpressions = [
     // Expressions courantes
     { japanese: "hai", french: ["oui"], politeness: "poli" },
     { japanese: "iie", french: ["non"], politeness: "poli" },
-    { japanese: "genki desu", french: ["ça va"], politeness: "informel" },
+    { japanese: "genki desu", french: ["« je suis en forme » ou « je vais bien » (dans le sens je suis en bonne santé)"], politeness: "informel", direction: "frenchToJapanese" },
+    { japanese: "daijoubu", french: ["« je vais bien » ou « ça va » (dans le sens je suis OK)"], politeness: "informel", direction: "frenchToJapanese" },
     { japanese: "sorosoro nemasu", french: ["il est temps que j'aille me coucher"], politeness: "poli" },
     { japanese: "aishitemasu", french: ["je t'aime"], politeness: "poli" },
     { japanese: "nemuidesu", french: ["j'ai sommeil"], politeness: "poli" },
