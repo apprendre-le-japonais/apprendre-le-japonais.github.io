@@ -51,7 +51,7 @@ const quiz = {
             document.getElementById('quizQuestion').textContent = questionText;
             this.expectedAnswer = this.currentQuestion.french;
         } else {
-            let questionText = `Comment dit-on "${this.currentQuestion.french}" en japonais ?`;
+            let questionText = `Comment dit-on "${this.currentQuestion.french.join(" ou ")}" en japonais ?`;
             if (this.currentQuestion.politeness) {
                 questionText += ` (${this.currentQuestion.politeness})`;
             }
