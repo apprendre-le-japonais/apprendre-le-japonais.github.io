@@ -24,5 +24,5 @@ window.usefulExpressions = [
     { japanese: "aishitemasu", french: ["je t'aime"], politeness: "poli" },
     { japanese: "nemuidesu", french: ["j'ai sommeil"], politeness: "poli" },
     { japanese: "tsukare mashita", french: ["je suis fatigué", "je suis fatiguée"], politeness: "poli" },
-    { japanese: "yoroshiku onegai shimasu", french: "formule de politesse à la fin d'un échange", politeness: "très poli" }
+    { japanese: "yoroshiku onegai shimasu", french: ["formule de politesse à la fin d'un échange"], politeness: "très poli", direction: "frenchToJapanese" }
 ]; 

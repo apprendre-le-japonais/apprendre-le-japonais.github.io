@@ -3,6 +3,17 @@ const quiz = {
     currentQuestion: null,
     questionsAsked: [],
     currentCategory: 'all',
+    answerInput: null,
+    feedbackElement: null,
+    nextButton: null,
+    checkButton: null,
+
+    init() {
+        this.answerInput = document.getElementById('quizAnswer');
+        this.feedbackElement = document.getElementById('quizResult');
+        this.nextButton = document.getElementById('nextQuestion');
+        this.checkButton = document.getElementById('checkAnswer');
+    },
 
     getVocabularyForCategory() {
         if (this.currentCategory === 'all') {
@@ -28,50 +39,70 @@ const quiz = {
         this.questionsAsked.push(randomIndex);
         this.currentQuestion = vocabulary[randomIndex];
         
-        // Choisir aléatoirement si on demande la traduction japonaise ou française
-        if (Math.random() > 0.5) {
-            let questionText = `Comment dit-on "${this.currentQuestion.french}" en japonais ?`;
-            if (this.currentQuestion.politeness) {
-                questionText += ` (${this.currentQuestion.politeness})`;
-            }
-            document.getElementById('quizQuestion').textContent = questionText;
-            this.expectedAnswer = this.currentQuestion.japanese;
-        } else {
+        // Choisir la direction de la question en fonction du paramètre direction
+        const forceFrenchToJapanese = this.currentQuestion.direction === "frenchToJapanese";
+        const isJapaneseQuestion = forceFrenchToJapanese ? false : Math.random() > 0.5;
+        
+        if (isJapaneseQuestion) {
             let questionText = `Que signifie "${this.currentQuestion.japanese}" en français ?`;
             if (this.currentQuestion.politeness) {
                 questionText += ` (${this.currentQuestion.politeness})`;
             }
             document.getElementById('quizQuestion').textContent = questionText;
             this.expectedAnswer = this.currentQuestion.french;
+        } else {
+            let questionText = `Comment dit-on "${this.currentQuestion.french}" en japonais ?`;
+            if (this.currentQuestion.politeness) {
+                questionText += ` (${this.currentQuestion.politeness})`;
+            }
+            document.getElementById('quizQuestion').textContent = questionText;
+            this.expectedAnswer = this.currentQuestion.japanese;
         }
         
         document.getElementById('quizAnswer').value = '';
-        document.getElementById('quizResult').textContent = '';
+        this.feedbackElement.textContent = '';
+        this.feedbackElement.className = 'feedback';
     },
 
     checkAnswer() {
         const userAnswer = this.answerInput.value.trim().toLowerCase();
-        const correctAnswers = Array.isArray(this.currentWord.french) ? 
-            this.currentWord.french.map(a => a.toLowerCase()) : 
-            [this.currentWord.french.toLowerCase()];
+        
+        // Déterminer si on attend une réponse en japonais ou en français
+        const isJapaneseQuestion = this.expectedAnswer === this.currentQuestion.japanese;
+        const correctAnswers = isJapaneseQuestion ? 
+            [this.currentQuestion.japanese.toLowerCase()] :
+            (Array.isArray(this.currentQuestion.french) ? 
+                this.currentQuestion.french.map(a => a.toLowerCase()) : 
+                [this.currentQuestion.french.toLowerCase()]);
         
         if (correctAnswers.includes(userAnswer)) {
             this.feedbackElement.textContent = "Correct !";
             this.feedbackElement.className = "feedback correct";
         } else {
-            this.feedbackElement.textContent = `Incorrect. La bonne réponse était : ${this.currentWord.french.join(" ou ")}`;
+            const correctAnswerText = isJapaneseQuestion ? 
+                this.currentQuestion.japanese :
+                (Array.isArray(this.currentQuestion.french) ? 
+                    this.currentQuestion.french.join(" ou ") : 
+                    this.currentQuestion.french);
+            this.feedbackElement.textContent = `Incorrect. La bonne réponse était : ${correctAnswerText}`;
             this.feedbackElement.className = "feedback incorrect";
         }
         
         this.answerInput.value = "";
-        this.nextButton.style.display = "block";
-        this.checkButton.style.display = "none";
+        this.checkButton.disabled = true;
+        
+        // Générer une nouvelle question après 2 secondes
+        setTimeout(() => {
+            this.generateQuestion();
+            this.checkButton.disabled = false;
+        }, 2000);
     }
 };
 
 // Événements
 document.addEventListener('DOMContentLoaded', () => {
     // Initialisation
+    quiz.init();
     quiz.generateQuestion();
 
     // Gestion du quiz
