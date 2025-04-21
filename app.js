@@ -50,23 +50,22 @@ const quiz = {
     },
 
     checkAnswer() {
-        const userAnswer = document.getElementById('quizAnswer').value.trim().toLowerCase();
-        const resultElement = document.getElementById('quizResult');
+        const userAnswer = this.answerInput.value.trim().toLowerCase();
+        const correctAnswers = Array.isArray(this.currentWord.french) ? 
+            this.currentWord.french.map(a => a.toLowerCase()) : 
+            [this.currentWord.french.toLowerCase()];
         
-        if (!this.currentQuestion) {
-            resultElement.textContent = 'Générez d\'abord une question';
-            return;
-        }
-
-        if (userAnswer === this.expectedAnswer) {
-            resultElement.textContent = 'Correct !';
-            resultElement.style.color = 'green';
+        if (correctAnswers.includes(userAnswer)) {
+            this.feedbackElement.textContent = "Correct !";
+            this.feedbackElement.className = "feedback correct";
         } else {
-            resultElement.textContent = `Incorrect. La réponse était : ${this.expectedAnswer}`;
-            resultElement.style.color = 'red';
+            this.feedbackElement.textContent = `Incorrect. La bonne réponse était : ${this.currentWord.french.join(" ou ")}`;
+            this.feedbackElement.className = "feedback incorrect";
         }
-
-        setTimeout(() => this.generateQuestion(), 2000);
+        
+        this.answerInput.value = "";
+        this.nextButton.style.display = "block";
+        this.checkButton.style.display = "none";
     }
 };
 
