@@ -141,13 +141,19 @@ button:hover {
     margin-top: 20px;
     font-size: 1.2em;
     font-weight: bold;
-    min-height: 30px;
+    min-height: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .feedback {
     padding: 10px;
     border-radius: 4px;
     margin-top: 10px;
+    text-align: center;
+    width: 100%;
 }
 
 .feedback.correct {
