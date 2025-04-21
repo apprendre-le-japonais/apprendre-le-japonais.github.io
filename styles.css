@@ -144,6 +144,22 @@ button:hover {
     min-height: 30px;
 }
 
+.feedback {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.feedback.correct {
+    color: #27ae60;
+    background-color: #d5f5e3;
+}
+
+.feedback.incorrect {
+    color: #c0392b;
+    background-color: #fadbd8;
+}
+
 @media (max-width: 600px) {
     .container {
         width: 95%;
